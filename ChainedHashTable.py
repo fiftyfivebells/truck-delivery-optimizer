@@ -5,7 +5,7 @@ w = 32
 
 
 class HashTable(object):
-    def __init__(self, initial_capacity=10):
+    def __init__(self):
         self.__initialize()
 
     def __initialize(self):
