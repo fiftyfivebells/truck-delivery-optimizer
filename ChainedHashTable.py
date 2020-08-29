@@ -26,8 +26,22 @@ class HashTable(object):
     def clear(self):
         pass
 
+    # Resizes the backing array of the hash table in O(n) time. First it determins the new dimension of the
+    # hash table by finding the power of 2 that is less than or equal to the number of items in the table.
+    # Then it creates a new array with that power of 2 empty spots. It then re-hashes all of the values in the
+    # original backing array and puts them into the new array.
     def __resize(self):
-        pass
+        self.dimension = 1
+        while (2 ** self.dimension) <= self.size:
+            self.dimension += 1
+
+        self.size = 0
+        old_array = self.array
+        self.array = self.__allocate_backing_array(2 ** self.dimension)
+
+        for i in range(len(old_array)):
+            for x in old_array[i]:
+                self.add(x)
 
     def __hash(self, val):
         hashed_val = ((self.seed * int(val)) % 2 ** w) // 2 ** (w - self.dimension)
