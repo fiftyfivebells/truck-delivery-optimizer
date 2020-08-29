@@ -30,7 +30,8 @@ class HashTable(object):
         pass
 
     def __hash(self, val):
-        pass
+        hashed_val = ((self.seed * int(val)) % 2 ** w) // 2 ** (w - self.dimension)
+        return ((self.seed * hashed_val) % 2 ** w) // 2 ** (w - self.dimension)
 
     def __allocate_backing_array(self, size):
         return [[] for _ in range(size)]
