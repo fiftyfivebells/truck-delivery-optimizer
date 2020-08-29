@@ -33,7 +33,7 @@ class HashTable(object):
         pass
 
     def __allocate_backing_array(self, size):
-        pass
+        return [[] for _ in range(size)]
 
     def __random_odd_int(self):
         return r.randrange(2 ** w) | 1  # gets random int in range 1 - 2^32, then ORs it with 1 to make it odd
