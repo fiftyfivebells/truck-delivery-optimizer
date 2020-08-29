@@ -9,7 +9,10 @@ class HashTable(object):
         self.__initialize()
 
     def __initialize(self):
-        pass
+        self.size = 0
+        self.dimension = 1
+        self.seed = self.__random_odd_int()
+        self.array = self.__allocate_backing_array(2 ** d)
 
     def add(self, val):
         pass
