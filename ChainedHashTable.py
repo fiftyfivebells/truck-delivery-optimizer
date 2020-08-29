@@ -23,8 +23,12 @@ class HashTable(object):
     def find(self, val):
         pass
 
+    # O(n) time. Sets the dimension back to 1, creates a new backing array of size 2, and then sets the
+    # number of items currently in the list back to 0
     def clear(self):
-        pass
+        self.dimension = 1
+        self.array = self.__allocate_backing_array(2)
+        self.size = 0
 
     # Resizes the backing array of the hash table in O(n) time. First it determins the new dimension of the
     # hash table by finding the power of 2 that is less than or equal to the number of items in the table.
