@@ -36,7 +36,7 @@ class HashTable(object):
         pass
 
     def __random_odd_int(self):
-        pass
+        return r.randrange(2 ** w) | 1  # gets random int in range 1 - 2^32, then ORs it with 1 to make it odd
 
     def __iter__(self):
         pass
