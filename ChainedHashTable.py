@@ -88,4 +88,6 @@ class HashTable(object):
         return r.randrange(2 ** w) | 1  # gets random int in range 1 - 2^32, then ORs it with 1 to make it odd
 
     def __iter__(self):
-        pass
+        for elements in self.array:
+            for x in elements:
+                yield x
