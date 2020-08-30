@@ -8,11 +8,13 @@ class HashTable(object):
     def __init__(self):
         self.__initialize()
 
+    # Initializes the internal structure. Sets the size of the hash table to 0, sets the dimension to
+    # 1, gets the random number for hashing, and creates a backing array to store elements.
     def __initialize(self):
-        self.size = 0
-        self.dimension = 1
-        self.seed = self.__random_odd_int()
-        self.array = self.__allocate_backing_array(2 ** self.dimension)
+        self.size = 0  # number of items in the table
+        self.dimension = 1  # dimension used by the hashing function
+        self.seed = self.__random_odd_int()  # seed used by the hashing function
+        self.array = self.__allocate_backing_array(2 ** self.dimension)  # backing array to hold lists of items
 
     # Adds a new value to the hash table in amortized O(1) time. Most add operations are constant, because
     # all that happens is the internal size counter is incremented and the value is stored at the index
@@ -38,7 +40,7 @@ class HashTable(object):
             if x == val:
                 elements.remove(val)
                 self.size -= 1
-                if 3*self.size < len(self.array):
+                if 3 * self.size < len(self.array):
                     self.__resize()
                 return x
         return None
@@ -77,13 +79,24 @@ class HashTable(object):
             for x in old_array[i]:
                 self.add(x)
 
+    # Generates a hash value in O(1) time. First it creates a hash from the given value by multiplying it by a
+    # random 32 bit number, the getting the remainder of that divided by 2**32 (to throw away some of the bits),
+    # then dividing by another large number to throw away more bits, creating a value that is within the size
+    # of the backing array. The function is done again using the hashed value in place of the original value
+    # to reduce collisions.
     def __hash(self, val):
         hashed_val = ((self.seed * int(val)) % 2 ** w) // 2 ** (w - self.dimension)
         return ((self.seed * hashed_val) % 2 ** w) // 2 ** (w - self.dimension)
 
+    # Creates a new backing array in O(n) time. This simply takes in a size value, then creates a list of
+    # size "size" with an empty list at each index. This is linear time because it goes from index 0 to
+    # size - 1 putting empty lists at each point.
     def __allocate_backing_array(self, size):
         return [[] for _ in range(size)]
 
+    # Generates a random odd integer in O(1) time. This is constant because the randrange function creates
+    # a random integer in constant time, and then a bitwise OR operation is done with 1 to ensure that the
+    # last bit is a 1, ie. that the number is random.
     def __random_odd_int(self):
         return r.randrange(2 ** w) | 1  # gets random int in range 1 - 2^32, then ORs it with 1 to make it odd
 
