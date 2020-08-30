@@ -14,8 +14,18 @@ class HashTable(object):
         self.seed = self.__random_odd_int()
         self.array = self.__allocate_backing_array(2 ** d)
 
+    # Adds a new value to the hash table in amortized O(1) time. Most add operations are constant, because
+    # all that happens is the internal size counter is incremented and the value is stored at the index
+    # corresponding to its hashed value. However, when the number of elements in the table is equal to the
+    # size of the backing array, the method has to call resize(), which is O(n). This is guaranteed to only
+    # happen infrequently, so the cost of resizing is spread out over all the other adds that didn't need
+    # a resize, making this an amortized O(1) method.
     def add(self, val):
-        pass
+        if self.size + 1 > len(self.array):
+            self.__resize()
+
+        self.array[self.__hash(val)].append(val)
+        self.size += 1
 
     def remove(self, val):
         pass
