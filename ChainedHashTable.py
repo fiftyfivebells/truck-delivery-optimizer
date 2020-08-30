@@ -12,7 +12,7 @@ class HashTable(object):
         self.size = 0
         self.dimension = 1
         self.seed = self.__random_odd_int()
-        self.array = self.__allocate_backing_array(2 ** d)
+        self.array = self.__allocate_backing_array(2 ** self.dimension)
 
     # Adds a new value to the hash table in amortized O(1) time. Most add operations are constant, because
     # all that happens is the internal size counter is incremented and the value is stored at the index
@@ -27,8 +27,21 @@ class HashTable(object):
         self.array[self.__hash(val)].append(val)
         self.size += 1
 
+    # Removes the given value in amortized O(1) time. Most remove operations are constant because they
+    # don't need to resize the internal array. However, when the number of empty spaces in the array
+    # becomes too large (if the filled spaces are less than 1/3 of the size of the backing array), the
+    # backing array is resized to save space. This is an O(n) operation, but because it only happens
+    # occasionally, it is amortized and the complexity is O(1).
     def remove(self, val):
-        pass
+        elements = self.array[self.__hash(val)]
+        for x in elements:
+            if x == val:
+                elements.remove(val)
+                self.size -= 1
+                if 3*self.size < len(self.array):
+                    self.__resize()
+                return x
+        return None
 
     # Finds the given value in O(1) time. Technically it could be called O(n), because it iterates the
     # list of values stored at the index of the backing array corresponding to the hash of the given
