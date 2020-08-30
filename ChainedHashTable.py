@@ -20,8 +20,15 @@ class HashTable(object):
     def remove(self, val):
         pass
 
+    # Finds the given value in O(1) time. Technically it could be called O(n), because it iterates the
+    # list of values stored at the index of the backing array corresponding to the hash of the given
+    # value. However, the length of the list at each index should be very small assuming a good hashing
+    # function, so because we're only iterating a couple values, it is effectively O(1) in practice.
     def find(self, val):
-        pass
+        for x in self.array[self.__hash(val)]:
+            if x == val:
+                return x
+        return None
 
     # O(n) time. Sets the dimension back to 1, creates a new backing array of size 2, and then sets the
     # number of items currently in the list back to 0
