@@ -16,26 +16,17 @@ class HashTable(object):
         self.seed = self.__random_odd_int()  # seed used by the hashing function
         self.array = self.__allocate_backing_array(2 ** self.dimension)  # backing array to hold lists of items
 
-    # Adds a new value to the hash table in amortized O(1) time. Most add operations are constant, because
-    # all that happens is the internal size counter is incremented and the value is stored at the index
-    # corresponding to its hashed value. However, when the number of elements in the table is equal to the
-    # size of the backing array, the method has to call resize(), which is O(n). This is guaranteed to only
-    # happen infrequently, so the cost of resizing is spread out over all the other adds that didn't need
-    # a resize, making this an amortized O(1) method.
-    def add(self, val):
+    # Inserts a new key/value pair into the table in O(1) amortized time. Each call to resize is O(n), but
+    # resize should only be called occasionally.
+    def insert(self, key, val):
         if self.size + 1 > len(self.array):
             self.__resize()
 
         self.array[self.__hash(val)].append(val)
         self.size += 1
 
-    # Removes the given value in amortized O(1) time. Most remove operations are constant because they
-    # don't need to resize the internal array. However, when the number of empty spaces in the array
-    # becomes too large (if the filled spaces are less than 1/3 of the size of the backing array), the
-    # backing array is resized to save space. This is an O(n) operation, but because it only happens
-    # occasionally, it is amortized and the complexity is O(1).
-    def remove(self, val):
-        elements = self.array[self.__hash(val)]
+    # Updates the value associated with the given key to the new value. Operates in O(1) time, since the
+    # size of the array at each index in the backing array is very small (since the hashing function is good)
         for x in elements:
             if x == val:
                 elements.remove(val)
@@ -45,15 +36,9 @@ class HashTable(object):
                 return x
         return None
 
-    # Finds the given value in O(1) time. Technically it could be called O(n), because it iterates the
-    # list of values stored at the index of the backing array corresponding to the hash of the given
-    # value. However, the length of the list at each index should be very small assuming a good hashing
-    # function, so because we're only iterating a couple values, it is effectively O(1) in practice.
-    def find(self, val):
-        for x in self.array[self.__hash(val)]:
-            if x == val:
-                return x
-        return None
+    # Finds and returns the value associated with the given key, or None if the key doesn't exist. This
+    # is O(1) in practice, because even though we iterate the list at each index, the number of items in
+    # the list is very small. Raises a KeyError if the key doesn't exist
 
     # O(n) time. Sets the dimension back to 1, creates a new backing array of size 2, and then sets the
     # number of items currently in the list back to 0
