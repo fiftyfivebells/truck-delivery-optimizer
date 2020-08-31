@@ -15,8 +15,9 @@ class Graph:
         self.graph[u][v] = weight
         self.graph[v][u] = weight
 
+    # Looks into the table and finds the distance between the two given vertices
     def get_distance_between(self, u, v):
-        pass
+        return self.graph[u][v]
 
     def shortest_distance(self, start):
         pass
