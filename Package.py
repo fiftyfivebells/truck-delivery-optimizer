@@ -11,3 +11,6 @@ class Package:
 
     def __hash__(self):
         return hash(self.package_id)
+
+    def __str__(self):
+        return f"{package_id}"
