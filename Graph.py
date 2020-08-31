@@ -8,8 +8,12 @@ class Graph:
         # total number of vertices in graph
         self.vertices = vertices 
 
+    # Takes in two vertices that exist in the graph and a weight. It then
+    # adds an entry into spot for both vertices that represents the weighted
+    # edge between them.
     def add_edge(self, u, v, weight):
-        pass
+        self.graph[u][v] = weight
+        self.graph[v][u] = weight
 
     def get_distance_between(self, u, v):
         pass
