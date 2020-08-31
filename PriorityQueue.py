@@ -1,6 +1,7 @@
 class PQItem(object):
     def __init__(self, item, priority):
-        pass
+        self.item = item
+        self.priority = priority
 
 class PriorityQueue(object):
     def __init__(self):
