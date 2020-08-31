@@ -70,7 +70,7 @@ class HashTable(object):
     # Allows use of bracket notation to set a new value for the given key. Raises a KeyError if the key
     # does not exist in the backing array
     def __setitem__(self, key, val):
-        self.update(key, val)
+        self.insert(key, val)
 
     # O(n) time. Sets the dimension back to 1, creates a new backing array of size 2, and then sets the
     # number of items currently in the list back to 0
