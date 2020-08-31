@@ -31,3 +31,33 @@ class Graph:
                 
         return min_index
 
+    # Uses Dijkstra's algorithm to find the shortest distance between the provided
+    # starting vertex and all the other vertices in the graph. Returns the list of
+    # distances from the selected node to all other nodes. Runs in O(n^2) time.
+    def shortest_paths(self, start):
+        # initialize the list of distances to a large value
+        distance = [float('inf') for _ in range(self.vertices)]
+
+        # the distance to the starting node from the starting node is always 0
+        distance[start] = 0
+
+        # initializes the table of visited vertices to False for each one, since
+        # at this point none have been visited
+        visited = [False for _ in range(self.vertices)]
+
+        for _ in range(self.vertices):
+            # gets the closest unvisited vertex from the starting node
+            u = self.__min_distance(distance, visited)
+
+            # sets the returned vertex as visited
+            visited[u] = True
+
+            # Looks at every vertex v in the list that has not been visited and compares
+            # the distance from v to the selected vertex u plus the distance between u
+            # and v. If the the distance of u plus the distance between u and v is less than
+            # the distance to v, it is updated.
+            for v in range(self.vertices):
+                if self.graph[u][v] > 0 and visited[v] == False and distance[v] > distance[u] + self.graph[u][v]:
+                    distance[v] = distance[u] + self.graph[u][v]
+
+        return distance
