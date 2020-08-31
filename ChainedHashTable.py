@@ -122,3 +122,12 @@ class HashTable(object):
         for elements in self.array:
             for x in elements:
                 yield x[0], x[1]
+
+    # Checks whether the provided key is in the hash table. This is an O(1) operation, because even though it
+    # is iterating the list contained at a certain index in the backing array, that list is guaranteed to be
+    # small, so it is effectively constant time.
+    def __contains__(self, key):
+        for element in self.array[self.__hash(key)]:
+            if element[0] == key:
+                return True
+        return False
