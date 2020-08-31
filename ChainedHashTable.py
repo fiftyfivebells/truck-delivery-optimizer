@@ -31,6 +31,14 @@ class HashTable(object):
 
     # Updates the value associated with the given key to the new value. Operates in O(1) time, since the
     # size of the array at each index in the backing array is very small (since the hashing function is good)
+    def update(self, key, val):
+        self.find(key)
+        hashed = self.__hash(key)
+        for i in range(len(self.array[hashed])):
+            if self.array[hashed][i][0] == key:
+                self.array[hashed][i] = (key, val)
+
+
     # Removes the item with the specified key in amortized O(1) time. Each call to resize is O(n), but 
     # reize should only be called occasionally, allowing the cost to be amortized. Returns None if the
     # key is not in the list.
