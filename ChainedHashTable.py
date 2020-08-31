@@ -55,12 +55,12 @@ class HashTable(object):
 
     # Finds and returns the value associated with the given key, or None if the key doesn't exist. This
     # is O(1) in practice, because even though we iterate the list at each index, the number of items in
-    # the list is very small. Raises a KeyError if the key doesn't exist
+    # the list is very small.
     def find(self, key):
         for x in self.array[self.__hash(key)]:
             if x[0] == key:
                 return x[1]
-        raise KeyError(key)
+        return None
 
     # Allows use of bracket notation to get value associated with a certain key. Will raise an error
     # if the key does not exist
