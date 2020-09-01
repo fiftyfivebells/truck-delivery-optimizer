@@ -26,5 +26,7 @@ class Truck(object):
     def start_deliveries(self):
         pass
 
+    # Returns true if the truck is at capacity, false otherwise.
     def is_truck_full(self):
-        pass
+        return len(self.packages) == self.capacity
+
