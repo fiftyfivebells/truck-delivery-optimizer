@@ -12,8 +12,16 @@ class Truck(object):
         self.total_distance = 0.0
         self.current_time = None
 
-    def load_truck(self):
-        pass
+    # Adds a package to the truck as long as the truck is not at capacity. Also
+    # puts the package's delivery address into the set containing all the stops
+    # the truck needs to make. Returns True if a package was added, False otherwise
+    def load_truck(self, package):
+        if len(self.packages) == self.capacity:
+            return False
+
+        self.packages.append(package)
+        self.location_list.add(package.address)
+        return True
 
     def start_deliveries(self):
         pass
