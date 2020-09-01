@@ -8,7 +8,7 @@ class Location:
         self.graph_index = graph_index
 
     def __hash__(self):
-        return hash(self.street, self.city, self.name)
+        return hash((self.street, self.city, self.name))
 
     def __eq__(self, other):
         if other == None:
