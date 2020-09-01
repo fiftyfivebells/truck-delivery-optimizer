@@ -60,12 +60,14 @@ def create_packages_list(file):
 
         for row in reader:
             p_id = row[0].strip()
-            address = row[1].strip()
+            street = row[1].strip()
             weight = row[5].strip()
             deadline = row[6].strip()
 
+            address = locations[street]
+
             p = Package(p_id, address, deadline, weight)
-            addr_idx = locations[address].graph_index
+            addr_idx = locations[street].graph_index
             shortest_path_to_hub = graph.shortest_paths(addr_idx)[0]
             p.distance_from_hub = shortest_path_to_hub
 
