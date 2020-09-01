@@ -14,4 +14,4 @@ class Package:
         return hash(self.package_id)
 
     def __str__(self):
-        return f"{package_id}"
+        return f"{self.package_id}"
