@@ -5,10 +5,10 @@ class Truck(object):
         self.start = start
         self.avg_speed = avg_speed
         self.capacity = capacity
-
         self.location = start
         self.route = []
         self.packages = []
+        self.location_list = set()
         self.total_distance = 0.0
         self.current_time = None
 
