@@ -97,3 +97,30 @@ class WGUPS(object):
                 print("Time should be in format: HH:mm:ss")
 
 
+    # Takes in a time and prints the status and information of all of the packages
+    # at that current time.
+    #
+    # O(n)
+    def print_package_info(self, time):
+        time = Time(time)
+        package_list = []
+
+        for k, v in self.packages:
+            package_list.append(v)
+
+        # sorts the list in place so packages are listed in order
+        package_list.sort(key = lambda x: x.package_id)
+
+        print(f"At {time}:") 
+        for p in package_list:
+            s = f"package {p.package_id:>2} was "
+            if time <= p.departure_time:
+                s += "still at the hub"
+
+            elif p.departure_time < time and time < p.delivery_time:
+                s += "in transit"
+
+            elif time > p.delivery_time:
+                s += "delivered"
+
+            print(s)            
