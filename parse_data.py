@@ -56,7 +56,7 @@ def create_locations_table(file):
 #
 # O(n) complexity
 def create_packages_list(file):
-    packages = []
+    packages = HashTable()
     locations = create_locations_table('./files/locations.csv')
     hub = 0
     graph = create_location_graph()
