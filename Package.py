@@ -6,6 +6,9 @@ class Package:
         self.weight = weight
         self.is_delivered = False
         self.distance_from_hub = float('inf')
+        self.truck_id = None
+        self.departure_time = None
+        self.delivery_time = None
 
     def __eq__(self, other):
         return self.package_id == other.package_id
