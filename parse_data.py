@@ -8,6 +8,8 @@ from Location import Location
 # Takes the csv of distances from each spot to all the other spots and turns
 # it into a list of each location and its distance to all the other locations
 # Returns the list of distances
+#
+# O(n) complexity
 def create_distance_list(file):
     distances = []
 
@@ -24,6 +26,8 @@ def create_distance_list(file):
 # Takes in a csv of location information and then creates a hash table where
 # the name of the place is the key and a location object corresponding to the
 # location in the table is the value. Returns the hash table.
+#
+# O(n) complexity
 def create_locations_table(file):
     locations = HashTable()
 
@@ -49,6 +53,8 @@ def create_locations_table(file):
 
 # Takes a csv of packages and their associated data and creates a list of
 # package objects. Returns the list of package objects.
+#
+# O(n) complexity
 def create_packages_list(file):
     packages = []
     locations = create_locations_table('./files/locations.csv')
@@ -76,6 +82,10 @@ def create_packages_list(file):
     return packages
 
 
+# Creates a graph using the distances in the given CSV file. Iterates the full
+# length of the row for each row in the CSV.
+#
+# O(n^2) complexity
 def create_location_graph():
     distances = create_distance_list('./files/location_distances.csv')
     graph = Graph(len(distances))

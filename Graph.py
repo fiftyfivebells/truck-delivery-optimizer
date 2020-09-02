@@ -11,16 +11,22 @@ class Graph:
     # Takes in two vertices that exist in the graph and a weight. It then
     # adds an entry into spot for both vertices that represents the weighted
     # edge between them.
+    #
+    # O(1) complexity
     def add_edge(self, u, v, weight):
         self.graph[u][v] = weight
         self.graph[v][u] = weight
 
     # Looks into the table and finds the distance between the two given vertices
+    #
+    # O(1) complexity (array lookup)
     def get_distance_between(self, u, v):
         return self.graph[u][v]
 
     # Finds the vertex with the smallest distance value from the set of vertices
     # that are not yet included in the shortest path table
+    #
+    # O(n) complexity
     def __min_distance(self, distance, visited):
         min = float('inf')
 
@@ -33,7 +39,9 @@ class Graph:
 
     # Uses Dijkstra's algorithm to find the shortest distance between the provided
     # starting vertex and all the other vertices in the graph. Returns the list of
-    # distances from the selected node to all other nodes. Runs in O(n^2) time.
+    # distances from the selected node to all other nodes.
+    #
+    # O(n^2) complexity
     def shortest_paths(self, start):
         # initialize the list of distances to a large value
         distance = [float('inf') for _ in range(self.vertices)]

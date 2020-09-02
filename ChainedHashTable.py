@@ -1,3 +1,5 @@
+# Stephen Bell: #001433854
+
 import random as r
 
 # the number of bytes in an integer

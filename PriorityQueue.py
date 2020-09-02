@@ -1,3 +1,5 @@
+# Inner class to hold the item in the priority queue in a way that
+# works with the interior implementation of the queue
 class PQItem(object):
     def __init__(self, item, priority):
         self.item = item
@@ -21,6 +23,7 @@ class PriorityQueue(object):
         self.array = [[] for _ in range(2)]
         self.size = 0
 
+    # O(1) complexity
     def is_empty(self):
         return self.size == 0
 
@@ -28,6 +31,8 @@ class PriorityQueue(object):
     # backing array and "bubbles" it up, swapping with its parent as long as
     # it has a higher priority. Will resize the backing array if the number of
     # items in the queue is equal to the length of the array
+    #
+    # O(log n) complexity
     def enqueue(self, item, priority):
         if len(self.array) < self.size + 1:
             self.__resize()
@@ -43,6 +48,8 @@ class PriorityQueue(object):
     # of the backing array, then puts the last element in the backing array in its
     # spot. Then it "trickles" the moved element down until it is a lower priority
     # than it's parent, but higher than its children
+    #
+    # O(log n) complexity
     def dequeue(self):
         if self.size == 0:
             raise IndexError
@@ -58,11 +65,18 @@ class PriorityQueue(object):
 
     # Returns the top element in the queue, but does not remove it. Completes in
     # O(1) time because it's an array lookup.
+    #
+    # O(1) complexity
     def peek(self):
         if self.size == 0:
             raise IndexError()
         return self.array[0]
 
+    # Resizes the backing array by making a new array that is twice the number of
+    # items in the queue, then putting the old items into the new array back where
+    # they were in the old array.
+    #
+    # O(n) complexity
     def __resize(self):
         new_size = max(2*self.size, 1)
         new_arr = [[] for _ in range(new_size)]
@@ -74,7 +88,9 @@ class PriorityQueue(object):
 
     # Takes the last item in the backing array and "bubbles" it up, swapping
     # with the parent as long as the parent has a lower priority. Stops looping
-    # when the item is a lower priority than its parent. Completes in O(log n).
+    # when the item is a lower priority than its parent.
+    #
+    # O(log n) complexity
     def __bubble_up(self, i):
         p = parent(i)
         while i > 0 and self.array[i].priority < self.array[p].priority:
@@ -84,7 +100,9 @@ class PriorityQueue(object):
 
     # Forces an element down as long as it has a lower priority than its child
     # nodes. Stops looping as soon as the child has lower priority than the
-    # item we're comparing. Completes in O(log n) time.
+    # item we're comparing.
+    #
+    # O(log n) complexity
     def __trickle_down(self, i):
         while i >= 0:
             j = -1
