@@ -54,5 +54,46 @@ class WGUPS(object):
             else:
                 self.t3.load_truck(package_queue.dequeue())        
 
+    # Loads the remaining packages and then runs the deliveries for each
+    # truck at the specified time. Then prints out the result and prompts
+    # the user for times to show package statuses.
+    #
+    # O(n^2) complexity (dominated by start_deliveries from the truck class)
     def run(self):
-        pass
+        self.load_remaining_packages()
+
+        # set truck 1 packages departure times
+        for p in self.t1.packages:
+            p.departure_time = Time("8:00:00")
+        self.t1.start_deliveries("8:00:00")
+
+        # set truck 2 package departure time
+        for p in self.t2.packages:
+            p.departure_time = Time("9:05:00")
+        self.t2.start_deliveries("9:05:00")
+
+        # update the address of the wrong package
+        self.packages[9].address = self.locations['410 S State St']
+        print(self.packages[9].address)        
+
+        # set truck 3 packages departure times
+        for p in self.t3.packages:
+            p.departure_time = Time("10:20:00")
+        self.t3.start_deliveries("10:20:00")
+
+        result = round(self.t1.total_distance + self.t2.total_distance + self.t3.total_distance, 2)
+        time = self.t3.current_time if self.t3.current_time > self.t2.current_time else self.t2.current_time
+
+        print(f"\nThe total distance traveled was {result} and the ending time was {time}")
+
+        inp = None
+
+        while inp != 'q' and inp != 'Q':
+            inp = input("\n\nEnter a time (HH:mm:ss) to check status of all packages, or 'q' to quit: ")
+
+            try:
+                print(self.print_package_info(inp))
+            except ValueError:
+                print("Time should be in format: HH:mm:ss")
+
+
