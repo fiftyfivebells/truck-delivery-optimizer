@@ -20,6 +20,8 @@ class HashTable(object):
 
     # Inserts a new key/value pair into the table in O(1) amortized time. Each call to resize is O(n), but
     # resize should only be called occasionally.
+    #
+    # O(1) complexity (amortized)
     def insert(self, key, val):
         if self.size + 1 > len(self.array):
             self.__resize()
@@ -33,6 +35,8 @@ class HashTable(object):
 
     # Updates the value associated with the given key to the new value. Operates in O(1) time, since the
     # size of the array at each index in the backing array is very small (since the hashing function is good)
+    #
+    # O(1) complexity
     def update(self, key, val):
         self.find(key)
         hashed = self.__hash(key)
@@ -44,6 +48,8 @@ class HashTable(object):
     # Removes the item with the specified key in amortized O(1) time. Each call to resize is O(n), but 
     # reize should only be called occasionally, allowing the cost to be amortized. Returns None if the
     # key is not in the list.
+    #
+    # O(1) complexity (amortized)
     def remove(self, key):
         elements = self.array[self.__hash(key)]
         for x in elements:
@@ -58,6 +64,8 @@ class HashTable(object):
     # Finds and returns the value associated with the given key, or None if the key doesn't exist. This
     # is O(1) in practice, because even though we iterate the list at each index, the number of items in
     # the list is very small.
+    #
+    # O(1) complexity
     def find(self, key):
         for x in self.array[self.__hash(key)]:
             if x[0] == key:
@@ -66,11 +74,15 @@ class HashTable(object):
 
     # Allows use of bracket notation to get value associated with a certain key. Will raise an error
     # if the key does not exist
+    #
+    # O(1) complexity
     def __getitem__(self, key):
         return self.find(key)
 
     # Allows use of bracket notation to set a new value for the given key. Raises a KeyError if the key
     # does not exist in the backing array
+    #
+    # O(1) complexity (amortized)
     def __setitem__(self, key, val):
         self.insert(key, val)
 
@@ -85,6 +97,8 @@ class HashTable(object):
     # hash table by finding the power of 2 that is less than or equal to the number of items in the table.
     # Then it creates a new array with that power of 2 empty spots. It then re-hashes all of the values in the
     # original backing array and puts them into the new array.
+    #
+    # O(n) complexity
     def __resize(self):
         self.dimension = 1
         while (2 ** self.dimension) <= self.size:
@@ -103,23 +117,31 @@ class HashTable(object):
     # then dividing by another large number to throw away more bits, creating a value that is within the size
     # of the backing array. The function is done again using the hashed value in place of the original value
     # to reduce collisions.
+    #
+    # O(1) complexity
     def __hash(self, val):
         return ((self.seed * hash(val)) % 2 ** w) // 2 ** (w - self.dimension)
 
     # Creates a new backing array in O(n) time. This simply takes in a size value, then creates a list of
     # size "size" with an empty list at each index. This is linear time because it goes from index 0 to
     # size - 1 putting empty lists at each point.
+    #
+    # O(n) complexity
     def __allocate_backing_array(self, size):
         return [[] for _ in range(size)]
 
     # Generates a random odd integer in O(1) time. This is constant because the randrange function creates
     # a random integer in constant time, and then a bitwise OR operation is done with 1 to ensure that the
     # last bit is a 1, ie. that the number is random.
+    #
+    # O(1) complexity
     def __random_odd_int(self):
         return r.randrange(2 ** w) | 1  # gets random int in range 1 - 2^32, then ORs it with 1 to make it odd
 
     # Allows users to iterate over the hash table with for loops. This is an O(n) time operation because it
     # touches every item in the list once in order to iterate everything it contains
+    #
+    # O(n) complexity
     def __iter__(self):
         for elements in self.array:
             for x in elements:
@@ -128,6 +150,8 @@ class HashTable(object):
     # Checks whether the provided key is in the hash table. This is an O(1) operation, because even though it
     # is iterating the list contained at a certain index in the backing array, that list is guaranteed to be
     # small, so it is effectively constant time.
+    #
+    # O(1) complexity
     def __contains__(self, key):
         for element in self.array[self.__hash(key)]:
             if element[0] == key:
