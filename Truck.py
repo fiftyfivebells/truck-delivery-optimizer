@@ -22,6 +22,7 @@ class Truck(object):
             return False
 
         self.packages.append(package)
+        package.truck_id = self.id
         self.location_list.add(package.address)
         return True
 
