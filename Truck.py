@@ -1,3 +1,7 @@
+
+from WGU_Time import Time as T
+import sys
+
 class Truck(object):
     def __init__(self, id, distances, start, avg_speed = 18, capacity = 16):
         self.id = id
