@@ -34,5 +34,25 @@ class WGUPS(object):
         load_truck_from_list(self.t2, for_t2, self.packages)
         load_truck_from_list(self.t3, for_t3, self.packages)
 
+    # After loading the packages with special restrictions, this method takes
+    # the remaining packages and puts them into a priority queue, then loads
+    # then into truck 1, 2, then 3 based on distance from the hub.
+    #
+    # O(n) complexity
+    def load_remaining_packages(self):
+        package_queue = PriorityQueue()
+
+        for k, p in self.packages:
+            if p.truck_id is None:
+                package_queue.enqueue(p, p.distance_from_hub)
+
+        while (not package_queue.is_empty()):
+            if not self.t1.is_truck_full():
+                self.t1.load_truck(package_queue.dequeue())
+            elif not self.t2.is_truck_full():
+                self.t2.load_truck(package_queue.dequeue())
+            else:
+                self.t3.load_truck(package_queue.dequeue())        
+
     def run(self):
         pass
