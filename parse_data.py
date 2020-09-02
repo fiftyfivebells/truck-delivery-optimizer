@@ -83,7 +83,7 @@ def create_packages_list(file):
             shortest_path_to_hub = graph.shortest_paths(addr_idx)[0]
             p.distance_from_hub = shortest_path_to_hub
 
-            packages.append(p)
+            packages.insert(p_id, p)
 
     return packages
 
