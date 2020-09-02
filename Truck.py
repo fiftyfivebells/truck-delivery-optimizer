@@ -26,8 +26,50 @@ class Truck(object):
         self.location_list.add(package.address)
         return True
 
-    def start_deliveries(self):
-        pass
+    # Takes in the time for the truck to start delivering, calculates the route to
+    # follow, and then starts delivering the packages. Each package is marked as
+    # delivered and its delivery time is updated. Once the packages list for the truck
+    # is empty, it returns to the hub.
+    #
+    # O(n^2) complexity
+    def start_deliveries(self, time):
+        # update the truck's current time
+        self.current_time = T(time)
+
+        # create the truck's semi-optimal route
+        self.find_shortest_route()
+
+        print(f"Truck {self.id} left the hub at {self.current_time}")
+
+        for i in range(1, len(self.route)):
+            current_stop = self.route[i - 1]
+            next_stop = self.route[i]
+
+            distance = self.distances.get_distance_between(current_stop.graph_index, next_stop.graph_index)
+            # travel time from current to next in seconds 
+            travel_time = (distance / self.avg_speed) * 3600
+            print(f"Truck {self.id} is traveling from {current_stop.name} to {next_stop.name}.")
+
+            self.location = next_stop
+            self.total_distance = round(self.total_distance + distance, 2)
+
+            self.current_time.add_seconds(int(travel_time))
+            delivery_time = T(str(self.current_time))
+
+            # When the truck is at the next location, it checks all its packages to see
+            # if any can be delivered here. If so, it marks them as delivered and sets
+            # their delivery time to the current time
+            for p in self.packages:
+                if self.location == p.address:
+                    p.is_delivered = True
+                    p.delivery_time = delivery_time
+                    print(f"Package {p.package_id} was delivered at {delivery_time}")
+                    if (p.deadline != ''):
+                        if (T(p.deadline) < self.current_time):
+                            print(f"\t****Package was delivered but the deadline was missed****")
+
+        print(f"Truck {self.id} traveled a total of {self.total_distance}.")
+        print(f"The time is now {self.current_time}.")
 
     # Returns true if the truck is at capacity, false otherwise.
     #
