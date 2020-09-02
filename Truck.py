@@ -1,5 +1,5 @@
 class Truck(object):
-    def __init__(self, id, distances, start, avg_speed, capacity):
+    def __init__(self, id, distances, start, avg_speed = 18, capacity = 16):
         self.id = id
         self.distances = distances
         self.start = start
