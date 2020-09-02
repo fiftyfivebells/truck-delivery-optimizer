@@ -65,10 +65,16 @@ def create_packages_list(file):
         reader = csv.reader(packages_file)
 
         for row in reader:
-            p_id = row[0].strip()
+            p_id = int(row[0].strip())
             street = row[1].strip()
-            weight = row[5].strip()
-            deadline = row[6].strip()
+            weight = row[6].strip()
+            deadline = row[5].strip()
+
+            if deadline == 'EOD':
+                deadline = ''
+            else:
+                dl = deadline.split(' ')
+                deadline = dl[0] + ':00'
 
             address = locations[street]
 
